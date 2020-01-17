@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login & Registrations</title>
+     {% load static %} 
+    <link rel="stylesheet" href="{% static 'style.css' %}"> 
+   
+</head>
+<body>
+    <div class="container1">
+            {% if messages %}
+            <ul class="messages">    
+                {% for message in messages %}    
+                <li class="message">{{ message }}</li>    
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <h1>Hello world</h1>
+        <div class="box1">
+            <form action="/createuser" method="post">
+                {% csrf_token %}
+                <h2>Register</h2>
+                <p>Please fill in this form to create an account.</p>
+                <p><input type="text" placeholder="First Name" name="fname"></p>
+                <p><input class="input" type="text" placeholder="Last Name" name="lname"></p>
+                <p><input type="text" placeholder="Email Address"name="useremail"></p>
+                <p></p><input type="password" placeholder="Password" name="pw"></p>
+                <p></p><input type="password" placeholder="Confirm Password" name="cpw"></p>
+                <br>
+                <input class = "Regbutton" type="submit" value="Register">
+            </form>
+        <br>
+        </div>
+        <div class="box2">
+                <h2>Login</h2>	
+                <p5>Already have an account?</p>
+            <form action="/login" method="post">
+                {% csrf_token %}
+                <p><input type="text" placeholder="Email Address" name = "useremail"></p>
+                <p><input type="password" placeholder="Password"name = "pw"></p>
+                <br>
+                <input class = "Logbutton" type="submit" value="Log In">
+            </form>
+        </div>
+</body>
+</html>

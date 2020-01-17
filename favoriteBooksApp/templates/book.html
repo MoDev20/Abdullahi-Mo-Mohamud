@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Favorite Books</title>
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+	<div class="container2">
+		<div class="topnav">
+			<a class="active" href="#user">Welcome {{loggedUser.firstName}}</a>
+			<a class="logout" href="/logout">Logoff</a></a>
+		</div>
+
+		<div class="box3">
+			<h2>Add a Favorite Book</h2>
+			<br>
+			<form action="/addBook" method="post">
+				{% csrf_token %}
+				<p class="p"><textarea placeholder = "Title" name="title" id="" cols="70" rows="3"></textarea></p>
+				<br>
+				<p class="p"><textarea placeholder = "Description" name="desc" id="" cols="70" rows="10"></textarea></p>
+				<input class = "Addbutton" type="submit" value="Add">
+			</form>
+		</div>
+		
+		<div class="box4">
+			<h2>All Books</h2>
+			<br>
+			{% for book in allbooks %}
+			<ul>	
+				<li><a href="/show/{{book.id}}">{{book.title}}</a></li> 
+				<li>Added by {{book.creator.firstName}} {{book.creator.lastName}}</li>
+				<li>{{book.desc}}</li>	
+				<!-- {{loggedUser}} {{book.like.all}} -->
+				
+				{% if loggedUser in book.like.all %}
+				<p>This book is one of your favorites</p>
+				{% else %}
+				<button class="button4"><a href="/book/{{book.id}}/addfavor">Add to Favorites</a></button>
+				{% endif %}
+			</ul>
+			
+
+
+
+			{% endfor %} 
+		</div>
+		
+
+</body>
+</html>

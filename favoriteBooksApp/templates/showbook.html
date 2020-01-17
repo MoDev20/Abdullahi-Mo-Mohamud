@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Favorite Books</title>
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="container3">
+        <div class="topnav">
+            <a class="active" href="#user">Welcome {{loggedUser.firstName}}</a>
+            <a class="logout" href="/logout">Logoff</a>
+            <a class="dash" href="/book">Dashboard</a>
+        </div>
+        
+        <div class="box5">
+                <table>
+                        <tr>
+                          <th>Title</th>
+                          <th>Posted by</th>
+                          <th>Created by</th>
+                          <th>Updated by</th>
+                          <th>Discription</th>
+                        </tr>
+                        <tr>
+                          <td>{{book.title}}</td>
+                          <td>{{book.creator.firstName}} {{book.creator.lastName}}</td>
+                          <td>{{book.created_at}}</td>
+                          <td>{{book.updated_at}}</td>
+                          <td>{{book.desc}}</td>
+                        </tr>       
+                      </table>
+
+        </div>
+        <div class="box6">
+        {% if loggedUser == book.creator %}
+            <form action="/update/{{book.id}}" method="post">
+                {% csrf_token %}
+                <p><input type="text" name="title" placeholder="{{book.title}}"></p>
+                <p>Added by {{loggedUser.firstName}} {{loggedUser.lastName}}</p>
+                <p>Added on {{book.created_at}}</p>
+                <p>Updated by{{book.updated_at}}</p>
+                <p class="message"><textarea name="desc"id="" cols= "80" rows="10" placeholder="{{book.desc}}"></textarea></p>
+            <input class = "button1" type="submit" value="Update"><button class="button2" ><a href="/book/{{book.id}}/delete">Delete</a type="submit"></button>
+            </form> 
+        {% endif %}
+        </div>
+        <div class="box8">
+            <!-- {{book.like.all}} -->
+           <h2> Users Who Like This Book:</h2>
+           <br>
+            <ul>
+            {% for poster in book.like.all %}
+            <li>{{poster.firstName}} {{poster.lastName}}</li>
+            {% endfor %}
+            </ul>
+
+            {% if loggedUser in book.like.all %}<button class="button4"><a href="/book/{{book.id}}/removefavor">Remove from Favorite</a></button>
+            {% else %}
+            <button class="button4"><a href="/book/{{book.id}}/addfavor">Add to Favorites</a></button>
+            {% endif %}
+
+        </div>
+
+    </div> 
+</body>
+</html>
